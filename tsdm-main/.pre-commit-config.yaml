@@ -1,0 +1,214 @@
+exclude: '(\.git/|\.venv/|\.idea/|\docs/_build/)'
+minimum_pre_commit_version: 3.3.3
+default_language_version:
+  python: python3.11
+  node: "18.12.1"
+repos:
+  #  - repo: meta
+  #    hooks:
+  #      - id: identity
+  - repo: local
+    hooks:
+      - id: markdownlint
+        name: markdownlint
+        types: [markdown]
+        language: system
+        stages: [pre-push, manual]
+        verbose: true
+        entry: mdl
+        args:
+          ["-r", "~MD007,~MD013,~MD029,~MD033"]
+          # MD007: Unordered list indentation (false positives)
+          # MD013: Line length (unused)
+        # MD029: Ordered list item prefix (false positives)
+        # MD033: Inline HTML (unused)
+      - id: axes-axis
+        name: rename 'axes=' => 'axis='
+        types: [python]
+        language: pygrep
+        entry: "axes="
+      - id: mypy
+        name: mypy
+        language: system
+        files: (^src/|^tests/)
+        types: [python]
+        entry: mypy
+        require_serial: true
+        args:
+          [
+            "--hide-error-context",
+            "--hide-error-end",
+            "--no-pretty",
+            "--no-error-summary",
+          ]
+        stages: [pre-push, manual]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    # https://pre-commit.com/hooks.html
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+        description: "prevents giant files from being committed."
+      - id: check-ast
+        description: "simply checks whether the files parse as valid python."
+      - id: check-builtin-literals
+        description: "requires literal syntax when initializing empty or zero python builtin types."
+      - id: check-byte-order-marker
+        description: "forbids files which have a utf-8 byte-order marker."
+      - id: check-json
+        description: "checks json files for parseable syntax."
+      - id: check-executables-have-shebangs
+        description: "ensures that (non-binary) executables have a shebang."
+      - id: check-shebang-scripts-are-executable
+        description: "ensures that (non-binary) files with a shebang are executable."
+      - id: check-symlinks
+        description: "checks for symlinks which do not point to anything."
+      - id: check-toml
+        description: "checks toml files for parseable syntax."
+      - id: check-xml
+        description: "checks xml files for parseable syntax."
+      - id: check-yaml
+        description: "checks yaml files for parseable syntax."
+      - id: debug-statements
+        description: "checks for debugger imports and py37+ `breakpoint()` calls in python source."
+      - id: end-of-file-fixer
+        description: "ensures that a file is either empty, or ends with one newline."
+      - id: pretty-format-json
+        args: ["--autofix"]
+        exclude: ^.*.ipynb$
+        description: "sets a standard for formatting json files."
+      - id: requirements-txt-fixer
+        description: "sorts entries in requirements.txt"
+      - id: trailing-whitespace
+        description: "trims trailing whitespace."
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-check-blanket-noqa
+        description: "Enforce that `noqa` annotations always occur with specific codes. Sample annotations: `# noqa: F401`, `# noqa: F401,W203`"
+      - id: python-no-log-warn
+        description: "Enforce that `logging.warn` is not used."
+      - id: rst-directive-colons
+        description: "Enforce that RST directives have colons."
+      - id: rst-inline-touching-normal
+        description: "Detect mistake of inline code touching normal text in rst"
+  # prettier
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+  # absolufy-imports
+  - repo: https://github.com/MarcoGorelli/absolufy-imports
+    rev: v0.3.1
+    hooks:
+      - id: absolufy-imports
+  # isort
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+  # black
+  - repo: https://github.com/psf/black
+    rev: 23.11.0
+    hooks:
+      - id: black
+      - id: black-jupyter
+  # blacken-docs
+  - repo: https://github.com/asottile/blacken-docs
+    rev: 1.16.0
+    hooks:
+      - id: blacken-docs
+        files: (^src/|^tests/)
+        types: [python]
+  # ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.7
+    hooks:
+      - id: ruff
+        files: (^src/|^tests/)
+  # flake8
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        files: (^src/|^tests/)
+        additional_dependencies:
+          - flake8-annotations
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-docstrings
+          - flake8-pyi
+          - flake8-pyproject
+          - flake8-rst
+          - flake8-rst-docstrings
+  # yesqa
+  #  - repo: https://github.com/asottile/yesqa
+  #    rev: v1.5.0
+  #    hooks:
+  #      - id: yesqa
+  #        files: (^src/|^tests/)
+  # pydocstyle
+  - repo: https://github.com/PyCQA/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        files: (^src/|^tests/)
+  # slotscheck
+  #  - repo: https://github.com/ariebovenberg/slotscheck
+  #    rev: v0.17.0
+  #    hooks:
+  #      - id: slotscheck
+  #        language: system
+  #        files: ^src/
+  # nbstripout-fast
+  - repo: https://github.com/deshaw/nbstripout-fast.git
+    rev: v1.0.2
+    hooks:
+      - id: nbstripout-fast
+        files: ^dev/
+  # pyright
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.339
+    hooks:
+      - id: pyright
+        # not everything works with pyright yet
+        # verbose regex
+        files: (^src/|^tests/)
+  - repo: https://github.com/randolf-scholz/assorted-hooks.git
+    rev: v0.1.47
+    hooks:
+      - id: pyproject-validate-version
+      - id: pyproject-update-deps
+      - id: pyproject-check-deps
+        args: ["--ignore-project-deps", "tensorboard", "pydantic"] # torch does not list this...
+      - id: python-no-blanket-type-ignore
+        files: (^src/|^tests/)
+      - id: python-no-builtin-eval
+        files: (^src/|^tests/)
+      - id: python-use-imported-attributes
+        files: (^src/|^tests/)
+      - id: python-check-no-mixed-args
+        files: ^src/
+        args:
+          - "--ignore-names"
+          - "forward"
+          - "predict"
+          - "--ignore-decorators"
+          - "jit.script"
+          - "--ignore-dunder"
+          # - "--allow-one"
+          - "--ignore-without-positional-only"
+      - id: python-check-standard-generics
+        files: (^src/|^tests/)
+      - id: check-separator-length
+        files: (^src/|^tests/)
+      - id: python-check-__all__-exists
+        files: ^src/
+      - id: python-check-typing
+        files: (^src/|^tests/)
+        args:
+          - "--check-overload-default-ellipsis"
+          - "--check-no-future-annotations"
+      #          - "--check-no-hints-overload-implementation"
+      - id: python-check-clean-interface
+        files: ^src/
+        args: ["--no-load-silent"]

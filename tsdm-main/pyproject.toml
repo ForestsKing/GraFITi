@@ -1,0 +1,680 @@
+# [build-system]
+# requires = ["poetry-core>=1.6.0"]
+# build-backend = "poetry.core.masonry.api"
+
+
+# region project configuration ------------------------------------------------------
+[project]
+name = "tsdm"
+version = "0.5.8"
+authors = [{name="Randolf Scholz", email="randolf.scholz@gmail.com"}]
+description = "Time-Series Datasets and Models"
+
+# package-content
+license = {file="LICENSE"}
+readme = "README.md"
+
+# meta-information
+keywords = ["time-series", "machine-learning"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: GPU :: NVIDIA CUDA :: 11.7",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+    "Operating System :: POSIX :: Linux",
+]
+
+# dependencies
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "matplotlib>=3.8.2",
+    "numpy>=1.26.2",
+    "pandas>=2.1.3",
+    "pillow>=10.1.0",
+    "polars>=0.19.19",
+    "pyarrow>=14.0.1",
+    "pydantic>=2.5.2",
+    "pyyaml>=6.0.1",
+    "requests>=2.31.0",
+    "scikit-learn>=1.3.2",
+    "scipy>=1.11.4",
+    "tensorboard>=2.15.1",
+    "torch>=2.1.1",
+    "tqdm>=4.66.1",
+    "typing-extensions>=4.8.0",
+]
+
+
+[project.optional-dependencies]
+dev = ["tsdm[test,docs,extras,typing,flake8,linters,formatters,devtools]"]
+test = [
+    "coverage>=7.3.2",
+    "pygal>=3.0.4",
+    "pytest-benchmark[histogram]>=4.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-repeat>=0.9.3",
+    "pytest-rerunfailures>=13.0",
+    "pytest-xdist>=3.5.0",
+    "pytest>=7.4.3",
+]
+docs = [
+    "docutils>=0.20.1",
+    "myst_parser>=2.0.0",
+    "nbsphinx>=0.9.3",
+    "piccolo-theme>=0.19.0",
+    "pydata-sphinx-theme>=0.14.4",
+    "sphinx-autoapi>=3.0.0",
+    "sphinx-automodapi>=0.16.0",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-math-dollar>=1.2.1",
+    "sphinx-togglebutton>=0.3.2",
+    "sphinx-typo3-theme>=4.9.0",
+    "sphinx>=7.2.6",
+]
+devtools = [
+    "pip>=23.3.1",
+    "pre-commit>=3.5.0",
+    "pybadges>=3.0.1",
+    "pydeps>=1.12.17",
+    "pygments>=2.17.2",
+    "setuptools>=69.0.2",
+    "twine>=4.0.2",
+    "wheel>=0.42.0",
+]
+extras = [
+    "ipympl>=0.9.3",
+    "ipywidgets>=8.1.1",
+    "jupyterlab>=4.0.9",
+    "jupyterlab>=4.0.9",
+    "notebook>=7.0.6",
+    "openml>=0.14.1",
+    "openpyxl>=3.1.2",
+    "psutil>=5.9.6",
+    "torchinfo>=1.8.0",
+]
+typing = [
+    "mypy>=1.7.1",
+    "pyright>=1.1.339",
+    "types-colorama>=0.4.15",
+    "types-decorator>=5.1.8",
+    "types-docutils>=0.20.0",
+    "types-jsonschema>=4.20.0",
+    "types-pillow>=10.1.0",
+    "types-protobuf>=4.24.0",
+    "types-psutil>=5.9.5",
+    "types-pygments>=2.17.0",
+    "types-pyyaml>=6.0.12",
+    "types-requests>=2.31.0",
+    "types-setuptools>=69.0.0",
+    "types-six>=1.16.21",
+    "types-tabulate>=0.9.0",
+    "types-tqdm>=4.66.0",
+    "types-urllib3>=1.26.25",
+]
+flake8 = [
+    "flake8>=6.1.0",
+    "flake8-annotations>=3.0.1",
+    "flake8-bugbear>=23.12.2",
+    "flake8-comprehensions>=3.14.0",
+    "flake8-docstrings>=1.7.0",
+    "flake8-pyi>=23.11.0",
+    "flake8-pyproject>=1.2.3",
+    "flake8-rst>=0.8.0",
+    "flake8-rst-docstrings>=0.3.0",
+]
+linters = [
+    "bandit>=1.7.5",
+    "mccabe>=0.7.0",
+    "pycodestyle>=2.11.1",
+    "pydocstyle>=6.3.0",
+    "pyflakes>=3.1.0",
+    "pylint>=3.0.2",
+    "pylint-gitlab>=2.0.0",
+    "ruff>=0.1.7",
+    "ruff-lsp>=0.0.45",
+    "slotscheck>=0.17.1",
+]
+formatters = [
+    "black[d,jupyter]>=23.11.0",
+    "blacken-docs>=1.16.0",
+    "isort>=5.12.0",
+    "nbstripout-fast>=1.0.2",
+    "ssort>=0.11.6",
+]
+
+
+
+[project.urls]
+homepage = "https://git.tu-berlin.de/bvt-htbd/kiwi/tf1/tsdm"
+documentation = "https://bvt-htbd.gitlab-pages.tu-berlin.de/kiwi/tf1/tsdm/"
+repository = "https://git.tu-berlin.de/api/v4/projects/6694/packages/pypi/simple"
+# endregion project configuration ------------------------------------------------------
+
+
+# region flake8 configuration ----------------------------------------------------------
+[tool.flake8]
+max-line-length = 120
+
+# ANN: Annotations
+# A:   builtins
+# B:   bugbear
+# B9:  bugbear future proof
+# BLK: black
+# C:   mccabe / comprehensions
+# D:   docstring
+# E:   pycodestyle errors
+# F:   pyflakes warnings
+# I:   import-order
+# M:   flake8 extension for mutable default arguments
+# RST: restructured text
+# W:   pycodestyle warnings
+# Y:   type hinting in stub files
+# select = B,B9,BLK,C,D,E,F,I,S,W
+
+#filename = [
+#    "src/",
+#    "tests/",
+#    "examples/",
+#    "docs/conf.py",
+#    "run/",
+#    "dev/",
+#]
+
+ignore = [
+    "ANN10", # ANN10 Missing type annotation for self in method
+    "ANN10", # ANN10 Missing type annotation for cls in classmethod
+    "ANN40", # ANN40 Dynamically typed expressions (typing.Any) are disallowed
+    "B024",  # B024 BaseDatasetMetaClass is an abstract base class, but it has no abstract methods
+    "D102",  # D102 Missing docstring in public method
+    "D105",  # D105 Missing docstring in magic method
+    "D107",  # D107 Missing docstring in __init__
+    "E201",  # E201 whitespace after '('
+    "E202",  # E202 whitespace before ']'
+    "E203",  # E203 whitespace before ':'
+    "E301",  # E301 expected 1 blank line, found 0
+    "E302",  # E302 expected 2 blank lines, found 1
+    "E241",  # E241 multiple spaces after ','
+    "E501",  # E501 line too long (use ruff instead)
+    "E704",  # E704 multiple statements on one line (def)
+    # "E741",  # E741 ambiguous variable nam
+    "W503",  # W503 line break before binary operator
+    "W504",  # W504 line break after binary operator
+]
+per-file-ignores = ["tests/*:D103"]
+
+#Google Python style is not RST until after processed by Napoleon
+#See https://github.com/peterjc/flake8-rst-docstrings/issues/17
+extend-ignore = [
+    "D407",    # Missing dashed underline after section
+    "RST201",  # Unexpected indentation.
+    "RST203",  # Definition list ends without a blank line# unexpected unindent.
+    "RST301",  # Block quote ends without a blank line# unexpected unindent.
+    # "ANN101",  # Missing type annotation for self in method
+    # "ANN201",  # Missing return type annotation for public function
+    # "RST303",  # Unknown directive type
+    # "RST304",  # Unknown interpreted text role
+]
+
+exclude = [
+    "*.pyi",
+    "./.git",
+    "./.idea",
+    "./.venv",
+    "./bugs",
+    "./build",
+    "./dev",
+    "./scripts",
+    "./venv",
+]
+
+# Annotations plugin
+# Suppress ANN200-level errors for functions that have no return (return None)
+suppress-none-returning = true
+allow-untyped-defs = true
+
+# docstring plugin
+docstring-convention = "google"
+rst-roles = [
+    "mod",
+    "func",
+    "data",
+    "const",
+    "class",
+    "meth",
+    "attr",
+    "exc",
+    "obj",
+]
+rst-directives = ["Signature", "literalinclude"]
+# endregion flake8 configuration -------------------------------------------------------
+
+
+# region PyLint Configuration ----------------------------------------------------------
+[tool.pylint]
+[tool.pylint."MESSAGES CONTROL"]
+enable = ["useless-suppression"]
+disable = [
+    "C0103",  # invalid-name
+    "C0144",  # non-ascii-name
+    "C0204",  # bad-mcs-classmethod-argument
+    "C0415",  # import-outside-toplevel
+    "E0611",  # no-name-in-module
+    "E1101",  # no-member  # FIXME: too many false positives
+    "E1121",  # too-many-function-args  # too many false positives
+    "E1123",  # unexpected-keyword-arg  # too many false positives
+    "E1130",  # invalid-unary-operand-type
+    "R0801",  # similar lines
+    "R0902",  # too-many-instance-attributes
+    "R0903",  # too-few-public-methods
+    "R0911",  # too-many-return-statements
+    "R0913",  # too-many-arguments
+    "R0914",  # too-many-locals
+    "R0915",  # too-many-statements
+    #    "W0221",  # arguments-differ
+    #    "W0511",  # (fixme) (todos)
+    "W1113",  # keyword-arg-before-vararg
+    "W2301",  # unnecessary-ellipsis
+]
+fail-on = [
+    "C0116",  # missing-function-docstring
+]
+fail-under = 9.0
+
+[tool.pylint.REPORTS]
+# Set the output format. Available formats are text, parseable, colorized, json and
+# msvs (visual studio). You can also give a reporter class, e.g. mypackage.mymodule.MyReporterClass
+output-format = "colorized"
+
+[tool.pylint.FORMAT]
+max-line-length = 120
+
+[tool.pylint.TYPECHECK]
+# List of members which are set dynamically and missed by pylint inference system, and so shouldn't
+# trigger E1101 when accessed. Python regular expressions are accepted.
+generated-members = ["numpy.*", "torch.*"]
+# endregion PyLint Configuration -------------------------------------------------------
+
+
+# region mypy configuration ------------------------------------------------------------
+[tool.mypy]
+files = ["src/", "tests/"]
+plugins = ["numpy.typing.mypy_plugin"]
+
+# platform configuration
+python_version = "3.11"
+#platform = "linux"
+
+disable_error_code = [
+    "func-returns-value",  # checks style, not type https://github.com/python/mypy/issues/6549
+    "overload-overlap",  # see https://mypy.readthedocs.io/en/stable/more_types.html#type-checking-the-variants
+    # we do not use this check
+]
+
+# warnings
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = false
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+# disallow dynamic typing
+disallow_any_unimported = false
+disallow_any_expr = false
+disallow_any_decorated = false
+disallow_any_explicit = false
+disallow_any_generics = false
+disallow_subclassing_any = false
+
+# untyped definitions
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = false
+disallow_untyped_decorators = false
+disallow_untyped_defs = false
+
+# strictness flags
+allow_untyped_globals = false
+allow_redefinition = false
+#local_partial_types = true
+no_implicit_reexport = false
+#strict_equality = false
+#strict = false
+#disable_error_code = []
+#enable_error_code =[]
+
+# configuring error messages
+show_error_context = true
+show_column_numbers = true
+show_error_end = true
+hide_error_codes = false
+pretty = false
+no_error_summary = false
+no_color_output = false
+show_absolute_path = false
+#soft_error_limit = 200
+
+# incremental mode
+no_incremental = false
+#cache_dir = ".mypy_cache/"
+#sqlite_cache = true
+#cache_fine_grained = true
+#skip_version_check = false
+#skip_cache_mtime_checks = false
+
+# advanced
+pdb = false
+
+[[tool.mypy.overrides]]
+module = [
+    "pandas.*",
+    "pyarrow.*",
+    "pytest_benchmark.*",
+    "scipy.*",
+    "sklearn.*",
+]
+ignore_missing_imports = true
+# endregion mypy configuration ---------------------------------------------------------
+
+
+# region isort Configuration -----------------------------------------------------------
+[tool.isort]
+# isort profiles: black, django, pycharm, google, open_stack, plone, attrs, hug, wemake, appnexus
+# black-compatible: black, appnexus
+py_version = 311
+profile = "black"
+src_paths = ["src/", "tests/"]
+known_first_party = ["linodenet", "tsdm"]
+combine_as_imports = true
+# flake8-profiles: appnexus, cryptography, edited, google, pep8, pycharm, smarkets
+# black-compatible: black, appnexus
+# endregion isort Configuration --------------------------------------------------------
+
+
+# region Black Configuration -----------------------------------------------------------
+[tool.black]
+line-length = 88
+target-version = ['py311']
+color = true
+preview = true
+# endregion Black Configuration --------------------------------------------------------
+
+
+# region Pydocstyle Configuration ------------------------------------------------------
+[tool.pydocstyle]
+convention = "google"
+#count = true
+# https://github.com/PyCQA/pydocstyle/issues/363
+#match = '.*\.py$'
+#match = '(?!test_).*\.py$'
+match_dir = '^(?!(.venv|bugs|dev|.*ipynb_checkpoints)).*'
+add-ignore = [
+    "D105",  # Missing docstring in magic method
+    "D102",  # Missing docstring in public method
+    "D107",  # Missing docstring in __init__
+]
+# endregion Pydocstyle Configuration ---------------------------------------------------
+
+
+# region Pyright Configuration ---------------------------------------------------------
+[tool.pyright]
+root = ""
+venv = ".venv"
+venvPath = "."
+pythonVersion = "3.11"
+pythonPlatform = "Linux"
+stubPath = ""
+include = ["src/", "tests/"]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/.ipynb_checkpoints",
+]
+executionEnvironments = [
+    {root = "src/", pythonVersion = "3.11", pythonPlatform = "Linux", extraPaths = [""]}
+]
+useLibraryCodeForTypes = false  # otherwise hundreds of pandas false-positives.
+# Type Check Diagnostics Settings
+# https://github.com/microsoft/pyright/blob/main/docs/configuration.md#type-check-diagnostics-settings
+#reportMissingImports = false
+#reportMissingTypeStubs = false
+#reportUnsupportedDunderAll = false
+reportOverlappingOverload = false
+reportPrivateImportUsage = false
+reportUnnecessaryTypeIgnoreComment = false  # highlight unnecessary # type: ignore
+reportSelfClsParameterName = false
+reportIncompatibleMethodOverride = false  # FIXME: temporary
+reportIncompatibleVariableOverride = false  # FIXME: temporary
+# endregion Pyright Configuration ------------------------------------------------------
+
+
+# region pytest configuration ----------------------------------------------------------
+[tool.pytest]
+# NOTE: currently unused https://docs.pytest.org/en/stable/reference/customize.html
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["src/", "tests/"]
+addopts = [
+    "--doctest-modules",
+    "--junit-xml=reports/pytest.xml",
+    # rerunfailures options
+    #    "--reruns=",          # number of times to re-run failed tests. defaults to 0.
+    #    "--reruns-delay=",    # add time (seconds) delay between reruns.
+    #    "--only-rerun=",      # If passed, only rerun errors matching the regex provided.
+    # xdists options
+    "--numprocesses=0",  # use 4 parallel processes
+    # "--dist=loadfile", # loadscope, loadfile, load, each, no
+    # coverage options
+    "--cov=tsdm",  # Path or package name to measure during execution (multi-allowed).
+    "--cov-report=term:skip-covered",
+    "--cov-report=xml:reports/coverage.xml",
+    #    "--cov-report=annotate:reports/coverage",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "serial",
+]
+required_plugins = [
+    "pytest-benchmark",
+    "pytest-cov",
+    "pytest-repeat",
+    "pytest-rerunfailures",
+    "pytest-xdist",
+]
+# endregion pytest configuration -------------------------------------------------------
+
+
+# region coverage configuration --------------------------------------------------------
+[tool.coverage]
+
+[tool.coverage.paths]
+source = ["src/tsdm"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "@abstractmethod",
+    "@abc.abstractmethod",
+    "@overload",
+    "@typing.overload",
+]
+
+[tool.coverage.run]
+source = ["src/"]
+# endregion coverage configuration -----------------------------------------------------
+
+
+# region ruff configuration ------------------------------------------------------------
+[tool.ruff]
+line-length = 120
+# endregion ruff configuration ---------------------------------------------------------
+
+
+# region poetry configuration ----------------------------------------------------------
+[tool.poetry]
+name = "tsdm"
+version = "0.5.8"
+authors = ["Randolf Scholz <rscholz@ismll.de>"]
+description = "Time-Series Datasets and Models"
+
+# package-content
+include = ["LICENSE", "README.md", "CHANGELOG.md", "CONTRIBUTING.md"]
+license = "MIT"
+packages = [{include = "tsdm", from = "src"}]
+readme = "README.md"
+
+# urls
+documentation = "https://bvt-htbd.gitlab-pages.tu-berlin.de/kiwi/tf1/tsdm/"
+homepage = "https://git.tu-berlin.de/bvt-htbd/kiwi/tf1/tsdm"
+repository = "https://git.tu-berlin.de/api/v4/projects/6694/packages/pypi/simple"
+
+# meta-information
+keywords = ["time-series", "machine-learning"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: GPU :: NVIDIA CUDA :: 11.7",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+    "Operating System :: POSIX :: Linux",
+]
+
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+matplotlib = ">=3.8.2"
+numpy = ">=1.26.2"
+pandas = ">=2.1.3"
+pillow = ">=10.1.0"
+polars = ">=0.19.19"
+pyarrow = ">=14.0.1"
+pyyaml = ">=6.0.1"
+requests = ">=2.31.0"
+scikit-learn = ">=1.3.2"
+scipy = ">=1.11.4"
+tensorboard = ">=2.15.1"
+torch = ">=2.1.1"
+tqdm = ">=4.66.1"
+typing-extensions = ">=4.8.0"
+pydantic = ">=2.5.2"
+
+
+[tool.poetry.group.extra.dependencies]
+ipympl = ">=0.9.3"
+ipywidgets = ">=8.1.1"
+jupyterlab = ">=4.0.9"
+notebook = ">=7.0.6"
+openml = ">=0.14.1"
+openpyxl = ">=3.1.2"
+psutil = ">=5.9.6"
+torchinfo = ">=1.8.0"
+
+
+[tool.poetry.group.test.dependencies]
+coverage = ">=7.3.2"
+pygal = ">=3.0.4"
+pytest = ">=7.4.3"
+pytest-benchmark = ">=4.0.0"
+pytest-cov = ">=4.1.0"
+pytest-repeat = ">=0.9.3"
+pytest-rerunfailures = ">=13.0"
+pytest-xdist = ">=3.5.0"
+
+
+[tool.poetry.group.docs.dependencies]
+docutils = ">=0.20.1"
+# karma_sphinx_theme = ">=0.0.0"
+myst_parser = ">=2.0.0"
+nbsphinx = ">=0.9.3"
+# numpydoc = ">=1.5.0"
+# pandoc = ">=2.3"
+piccolo-theme = ">=0.19.0"
+pydata-sphinx-theme = ">=0.14.4"
+sphinx = ">=7.2.6"
+sphinx-autoapi = ">=3.0.0"
+sphinx-autodoc-typehints = ">=1.25.2"
+sphinx-automodapi = ">=0.16.0"
+sphinx-copybutton = ">=0.5.2"
+sphinx-math-dollar = ">=1.2.1"
+# sphinx-pdj-theme = ">=0.4.0"
+sphinx-togglebutton = ">=0.3.2"
+sphinx-typo3-theme = ">=4.9.0"
+# sphinxawesome-theme = ">=4.1.0"
+
+
+[tool.poetry.group.devtools.dependencies]
+cmake = ">=3.27.9"
+devtools = ">=0.12.2"
+johnnydep = ">=1.20.4"
+ninja = ">=1.11.1"
+pip = ">=23.3.1"
+pip-tools = ">=7.3.0"
+pipdeptree = ">=2.13.1"
+pipreqs = ">=0.4.13"
+pre-commit = ">=3.5.0"
+pybadges = ">=3.0.1"
+pydeps = ">=1.12.17"
+setuptools = ">=69.0.2"
+twine = ">=4.0.2"
+wheel = ">=0.42.0"
+
+
+[tool.poetry.group.flake8.dependencies]
+flake8 = ">=6.1.0"
+flake8-annotations = ">=3.0.1"
+flake8-bugbear = ">=23.12.2"
+flake8-comprehensions = ">=3.14.0"
+flake8-docstrings = ">=1.7.0"
+flake8-pyi = ">=23.11.0"
+flake8-pyproject = ">=1.2.3"
+flake8-rst = ">=0.8.0"
+flake8-rst-docstrings = ">=0.3.0"
+
+
+[tool.poetry.group.formatters.dependencies]
+black = { version = ">=23.11.0", extras = ["d", "jupyter"] }
+blacken-docs = ">=1.16.0"
+isort = ">=5.12.0"
+nbstripout-fast = ">=1.0.2"
+ssort = ">=0.11.6"
+
+
+[tool.poetry.group.linters.dependencies]
+bandit = ">=1.7.5"
+mccabe = ">=0.7.0"
+pycodestyle = ">=2.11.1"
+pydocstyle = ">=6.3.0"
+pyflakes = ">=3.1.0"
+pylint = ">=3.0.2"
+pylint-gitlab = ">=2.0.0"
+ruff = ">=0.1.7"
+ruff-lsp = ">=0.0.45"
+slotscheck = ">=0.17.1"
+
+
+[tool.poetry.group.typing.dependencies]
+mypy = ">=1.7.1"
+pyright = ">=1.1.339"
+types-colorama = ">=0.4.15"
+types-decorator = ">=5.1.8"
+types-docutils = ">=0.20.0"
+types-jsonschema = ">=4.20.0"
+types-pillow = ">=10.1.0"
+types-protobuf = ">=4.24.0"
+types-psutil = ">=5.9.5"
+types-pygments = ">=2.17.0"
+types-pyyaml = ">=6.0.12"
+types-requests = ">=2.31.0"
+types-setuptools = ">=69.0.0"
+types-six = ">=1.16.21"
+types-tabulate = ">=0.9.0"
+types-tqdm = ">=4.66.0"
+types-urllib3 = ">=1.26.25"
+
+
+[tool.poetry.group.unsorted.dependencies]
+pygments = ">=2.17.2"
+# endregion poetry configuration -------------------------------------------------------
